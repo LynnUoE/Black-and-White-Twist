@@ -4,8 +4,8 @@ A 3D-puzzle-platformer where changing perspectives reveals hidden truths. Use si
 
 ## Developers
 
-- [@aryansindhu8](https://github.com/aryansindhu8)
-- [@lynnuoe](https://github.com/lynnuoe)
+- Aryan Sindhu[@aryansindhu8](https://github.com/aryansindhu8)
+- Linxuan Chen [@lynnuoe](https://github.com/lynnuoe)
 
 ## Game Mechanics
 
