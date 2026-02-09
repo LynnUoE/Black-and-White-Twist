@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black & White Twist | Dual-Perspective Puzzle Platformer</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --accent: #a855f7;
+            --accent-glow: #c084fc;
+            --white: #f0f0f5;
+            --gray: #8888a0;
+            --border: #1e1e2e;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .bg-grid {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image:
+                linear-gradient(rgba(168,85,247,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(168,85,247,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            text-align: center;
+            padding: 60px 0 32px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 6px 18px;
+            border: 1px solid var(--accent);
+            border-radius: 999px;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-glow);
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 30%, var(--accent-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero .tagline {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        /* ── Game Embed ── */
+        .game-section {
+            padding: 32px 0;
+        }
+
+        .game-wrapper {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 0 80px rgba(168, 85, 247, 0.08);
+        }
+
+        .game-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .game-toolbar span {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.82rem;
+            color: var(--gray);
+        }
+
+        .fullscreen-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--gray);
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .fullscreen-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent-glow);
+        }
+
+        .game-canvas-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .game-canvas-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .game-placeholder {
+            text-align: center;
+            color: var(--gray);
+        }
+
+        .game-placeholder .icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.4; }
+        .game-placeholder p { font-size: 0.95rem; }
+        .game-placeholder code {
+            display: inline-block;
+            margin-top: 8px;
+            background: rgba(255,255,255,0.05);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: var(--accent-glow);
+        }
+
+        /* ── Controls ── */
+        .controls {
+            padding: 40px 0 60px;
+        }
+
+        .section-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .controls h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem;
+            margin-bottom: 28px;
+        }
+
+        .controls-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 700px) {
+            .controls-split { grid-template-columns: 1fr; }
+        }
+
+        .control-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+        }
+
+        .control-panel h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            margin-bottom: 18px;
+            color: var(--accent-glow);
+        }
+
+        .key-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .key {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 38px;
+            height: 34px;
+            padding: 0 10px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #ccc;
+        }
+
+        .key-desc {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center;
+            padding: 40px 0 32px;
+            border-top: 1px solid var(--border);
+        }
+
+        footer p {
+            color: var(--gray);
+            font-size: 0.82rem;
+        }
+
+        footer .footer-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: var(--white);
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+
+    <div class="container">
+        <!-- Hero -->
+        <section class="hero">
+            <h1>BLACK & WHITE TWIST</h1>
+        </section>
+
+        <!-- Game Embed -->
+        <section class="game-section">
+            <div class="game-wrapper">
+                <div class="game-toolbar">
+                    <span>BLACK & WHITE TWIST v1.0</span>
+                    <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ Fullscreen</button>
+                </div>
+                <div class="game-canvas-container" id="gameContainer">
+                        <iframe src="/Black & White Twist/index.html" allowfullscreen></iframe>
+                    <div class="game-placeholder">
+                        <div class="icon">🎮</div>
+                        <p>Game build will be embedded here</p>
+                        <code>Place your WebGL build in /Build folder</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Controls -->
+        <section class="controls">
+            <div class="section-label">How to Play</div>
+            <h2>Controls</h2>
+            <div class="controls-split">
+                <div class="control-panel">
+                    <h3>Side View</h3>
+                    <div class="key-row"><span class="key">A</span><span class="key">D</span><span class="key-desc">Move left / right</span></div>
+                    <div class="key-row"><span class="key">SPACE</span><span class="key-desc">Jump</span></div>
+                    <div class="key-row"><span class="key">K</span><span class="key-desc">Switch color (black ↔ white)</span></div>
+                    <div class="key-row"><span class="key">TAB</span><span class="key-desc">Switch to top view</span></div>
+                </div>
+                <div class="control-panel">
+                    <h3>Top View</h3>
+                    <div class="key-row"><span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span><span class="key-desc">Move on platform</span></div>
+                    <div class="key-row"><span class="key">SPACE</span><span class="key-desc">Phase Dash</span></div>
+                    <div class="key-row"><span class="key">TAB</span><span class="key-desc">Switch to side view</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p class="footer-title">BLACK & WHITE TWIST</p>
+            <p>Built with Unity · A dual-perspective puzzle platformer</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleFullscreen() {
+            const container = document.getElementById('gameContainer');
+            if (!document.fullscreenElement) {
+                container.requestFullscreen?.() || container.webkitRequestFullscreen?.();
+            } else {
+                document.exitFullscreen?.();
+            }
+        }
+    </script>
+</body>
+</html>
