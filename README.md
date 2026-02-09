@@ -1,6 +1,6 @@
 # Black & White Twist
 
-A dual-perspective puzzle platformer built with Unity. Navigate the same 3D world through two fundamentally different viewpoints — a side-scrolling platformer mode and a top-down strategic mode. The core challenge revolves around timing and spatial reasoning as you coordinate movement with color-phase systems that determine platform accessibility.
+A 3D-puzzle-platformer where changing perspectives reveals hidden truths. Use side-view jumping and color switching. Then dash in top-down planning mode through changing platform colors to uncover safe paths, where only timing and viewpoint grant passage.
 
 ## Game Mechanics
 
@@ -31,13 +31,6 @@ Black and white platforms determine where you can stand. You can only interact w
 - **Engine:** Unity (WebGL Build)
 - **Language:** C#
 - **Hosting:** GitHub Pages
-
-## Local Development
-
-1. Clone the repository
-2. Open the project in Unity
-3. File → Build Settings → WebGL → Build
-4. Run a local server to test (e.g. `npx serve .`)
 
 ## Project Structure
 
