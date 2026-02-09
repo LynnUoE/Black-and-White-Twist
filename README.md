@@ -2,6 +2,11 @@
 
 A 3D-puzzle-platformer where changing perspectives reveals hidden truths. Use side-view jumping and color switching. Then dash in top-down planning mode through changing platform colors to uncover safe paths, where only timing and viewpoint grant passage.
 
+## Developers
+
+- [@aryansindhu8](https://github.com/aryansindhu8)
+- [@lynnuoe](https://github.com/lynnuoe)
+
 ## Game Mechanics
 
 ### Side View — Platformer Mode
